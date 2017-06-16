@@ -6,39 +6,53 @@ google.charts.setOnLoadCallback(drawBasic);
 
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
-// draws it.
+// draws it.\
+
+var toppingCounter = {
+  tomato: 6,
+  pepperoni: 7,
+  shrimp: 1,
+  pineapple: 6,
+  peppers: 4
+}
+
+window.onload = function(){
+  document.getElementById("pineapple").onclick=vote;
+  document.getElementById("peppers").onclick=vote;
+  document.getElementById("pepperoni").onclick=vote;
+  document.getElementById("shrimp").onclick=vote;
+  document.getElementById("tomato").onclick=vote;
+}
+
+function vote(topping) {
+  console.log(this.id)
+  toppingCounter[this.id] = toppingCounter[this.id] + 1
+  drawBasic();
+}
+
 function drawBasic() {
 
       var data = new google.visualization.DataTable();
-      data.addColumn('timeofday', 'Time of Day');
-      data.addColumn('number', 'Motivation Level');
+      data.addColumn('string', 'topping');
+      data.addColumn('number', 'people who liked it');
 
       data.addRows([
-        [{v: [8, 0, 0], f: '8 am'}, 1],
-        [{v: [9, 0, 0], f: '9 am'}, 2],
-        [{v: [10, 0, 0], f:'10 am'}, 3],
-        [{v: [11, 0, 0], f: '11 am'}, 4],
-        [{v: [12, 0, 0], f: '12 pm'}, 5],
-        [{v: [13, 0, 0], f: '1 pm'}, 6],
-        [{v: [14, 0, 0], f: '2 pm'}, 7],
-        [{v: [15, 0, 0], f: '3 pm'}, 8],
-        [{v: [16, 0, 0], f: '4 pm'}, 9],
-        [{v: [17, 0, 0], f: '5 pm'}, 10],
+        ['Tomato',toppingCounter.tomato],
+        ['Pepperoni',toppingCounter.pepperoni],
+        ['Shrimp',toppingCounter.shrimp],
+        ['Pineapple',toppingCounter.pineapple],
+        ['Peppers',toppingCounter.peppers]
       ]);
 
       var options = {
-        title: 'Motivation Level Throughout the Day',
+        title: 'Pizza Topping Popularity',
         hAxis: {
-          title: 'Time of Day',
-          format: 'h:mm a',
-          viewWindow: {
-            min: [7, 30, 0],
-            max: [17, 30, 0]
-          }
+          title: 'Toppings',
         },
         vAxis: {
-          title: 'Rating (scale of 1-10)'
+          title: 'People who liked it'
         }
+
       };
       var chart = new google.visualization.ColumnChart(
         document.getElementById('chart_div'));
